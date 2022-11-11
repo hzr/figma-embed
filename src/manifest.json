@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "Figma embed",
+  "version": "0.4",
+  "description": "Finds links to Figma files and shows an embedded version of them next to the link.",
+  "host_permissions": ["https://github.com/"],
+  "optional_host_permissions": ["https://*/"],
+  "permissions": ["storage", "activeTab"],
+  "optional_permissions": ["scripting"],
+  "web_accessible_resources": [
+    {
+      "resources": ["iframe.html"],
+      "matches": ["https://*/*"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "run_at": "document_start",
+      "matches": ["https://github.com/*"],
+      "exclude_matches": ["https://github.com/settings/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "icons": {
+    "16": "./assets/icon-16.png",
+    "32": "./assets/icon-32.png",
+    "128": "./assets/icon-128.png"
+  },
+  "options_ui": {
+    "page": "settings.html",
+    "open_in_tab": false
+  },
+  "action": {
+    "default_icon": {
+      "16": "./assets/icon-16.png",
+      "32": "./assets/icon-32.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  }
+}

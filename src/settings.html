@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Figma embed</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font: 0.8em -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica,
+          sans-serif;
+        min-width: 260px;
+        padding: 0 16px 16px;
+        --h: 260deg;
+        --s: 50%;
+        --l: 50%;
+        --accent-color: hsl(var(--h) var(--s) var(--l));
+      }
+
+      input {
+        accent-color: var(--accent-color);
+        margin: 0;
+      }
+
+      button {
+        font: inherit;
+        padding: 8px 16px;
+        background: var(--accent-color);
+        color: #fff;
+        border-radius: 4px;
+        transition: 0.2s background-color, transform 0.1s;
+        border: 1px solid hsl(var(--h) var(--s) 30%);
+        border-bottom-width: 2px;
+      }
+
+      button:active {
+        transform: translateY(1px);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 16px;
+        display: grid;
+        grid-template-columns: max-content max-content;
+        gap: 4px;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <label>
+        <input type="checkbox" name="autoExpand" />
+        Automatically expand links
+      </label>
+
+      <label>
+        <input type="checkbox" name="colorfulIcon" />
+        Use colorful icon
+      </label>
+
+      <button>Save</button>
+    </form>
+
+    <div id="log"></div>
+
+    <script src="settings.js" type="module"></script>
+  </body>
+</html>
