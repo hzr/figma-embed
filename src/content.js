@@ -166,8 +166,8 @@ function createEmbedEle(url, isInPopover) {
     `
     : `
       display: block;
-      width: 1000px;
-      max-width: 100%;
+      width: 100%;
+      max-width: 1000px;
       min-width: 100px;
       min-height: 300px;
       aspect-ratio: 3/2;
@@ -175,6 +175,22 @@ function createEmbedEle(url, isInPopover) {
       resize: both;
     `;
   wrapperEle.append(iframeEle);
+
+  const resizeObserver = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      if (entry.target === wrapperEle) {
+        // max-width sets the maximum width for the initial render
+        // We remove it to support resizing above 1000px
+        wrapperEle.style.setProperty('width', `${entry.contentRect.width}px`);
+        wrapperEle.style.removeProperty('max-width');
+        resizeObserver.unobserve(wrapperEle);
+        break;
+      }
+    }
+  });
+
+  resizeObserver.observe(wrapperEle);
+
   return wrapperEle;
 }
 
