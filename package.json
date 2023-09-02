@@ -1,6 +1,6 @@
 {
   "name": "figma-embed",
-  "version": "0.4",
+  "version": "0.5",
   "devDependencies": {
     "@types/chrome": "^0.0.200"
   },
