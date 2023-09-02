@@ -175,6 +175,7 @@ function createEmbedEle(url, isInPopover) {
       resize: both;
     `;
   wrapperEle.append(iframeEle);
+  wrapperEle.addEventListener('click', event => event.stopPropagation());
 
   const resizeObserver = new ResizeObserver(entries => {
     for (const entry of entries) {
@@ -243,32 +244,37 @@ function collapse(linkEle) {
   linkEle.nextElementSibling?.remove();
 }
 
-document.documentElement.addEventListener('click', event => {
-  const target = /** @type Element */ (event.target);
-  const toggleButtonEle = target.closest(
-    `.${expandedClass}, .${collapsedClass}`,
-  );
-  if (toggleButtonEle) {
-    const shouldCollapse = toggleButtonEle.classList.contains(expandedClass);
-    const toggleAll = event.metaKey || event.ctrlKey;
-    const eles = toggleAll
-      ? document.querySelectorAll(`.${linkClass}`)
-      : [toggleButtonEle.nextElementSibling];
-    for (const linkEle of eles) {
-      if (shouldCollapse) {
-        collapse(linkEle);
-        continue;
-      }
+document.documentElement.addEventListener(
+  'click',
+  event => {
+    const target = /** @type Element */ (event.target);
+    const toggleButtonEle = target.closest(
+      `.${expandedClass}, .${collapsedClass}`,
+    );
+    if (toggleButtonEle) {
+      event.stopPropagation();
+      const shouldCollapse = toggleButtonEle.classList.contains(expandedClass);
+      const toggleAll = event.metaKey || event.ctrlKey;
+      const eles = toggleAll
+        ? document.querySelectorAll(`.${linkClass}`)
+        : [toggleButtonEle.nextElementSibling];
+      for (const linkEle of eles) {
+        if (shouldCollapse) {
+          collapse(linkEle);
+          continue;
+        }
 
-      // If we expand all, make sure the element is collapsed before trying to expand
-      const isCollapsed =
-        getButtonEle(linkEle)?.classList.contains(collapsedClass);
-      if (isCollapsed) {
-        expand(linkEle);
+        // If we expand all, make sure the element is collapsed before trying to expand
+        const isCollapsed =
+          getButtonEle(linkEle)?.classList.contains(collapsedClass);
+        if (isCollapsed) {
+          expand(linkEle);
+        }
       }
     }
-  }
-});
+  },
+  { capture: true },
+);
 
 document.documentElement.addEventListener('pointerdown', event => {
   const target = /** @type Element */ (event.target);
