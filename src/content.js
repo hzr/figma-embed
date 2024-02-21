@@ -20,7 +20,7 @@ const wrapperClass = makeKey('wrapper');
 const linkClass = makeKey('link');
 
 function getIconEle() {
-  const id = `gradient-${Math.random()}`;
+  const id = `gradient-${crypto.randomUUID()}`;
   return /* HTML */ `
     <svg
       width="16"
@@ -85,6 +85,7 @@ function isInPopover(ele) {
  */
 function createToggleButton(isExpanded, linkColor) {
   const buttonEle = document.createElement('button');
+  buttonEle.type = 'button';
   buttonEle.style.cssText = `
     vertical-align: baseline;
     line-height: inherit;
@@ -158,21 +159,22 @@ function createEmbedEle(url, isInPopover) {
 
   const wrapperEle = document.createElement('span');
   wrapperEle.classList.add(wrapperClass);
+  const baseStyle = `
+    display: block;
+    width: 100%;
+    aspect-ratio: 3/2;
+  `;
   wrapperEle.style.cssText = isInPopover
-    ? `
-      display: block;
-      width: 100%;
-      aspect-ratio: 3/2;
-    `
+    ? baseStyle
     : `
-      display: block;
-      width: 100%;
+      ${baseStyle}
       max-width: 1000px;
       min-width: 100px;
       min-height: 300px;
-      aspect-ratio: 3/2;
       overflow: hidden;
       resize: both;
+      position: relative;
+      z-index: 1;
     `;
   wrapperEle.append(iframeEle);
   wrapperEle.addEventListener('click', event => event.stopPropagation());
@@ -182,7 +184,10 @@ function createEmbedEle(url, isInPopover) {
       if (entry.target === wrapperEle) {
         // max-width sets the maximum width for the initial render
         // We remove it to support resizing above 1000px
-        wrapperEle.style.setProperty('width', `${entry.contentRect.width}px`);
+        wrapperEle.attributeStyleMap.set(
+          'width',
+          CSS.px(entry.contentRect.width),
+        );
         wrapperEle.style.removeProperty('max-width');
         resizeObserver.unobserve(wrapperEle);
         break;
