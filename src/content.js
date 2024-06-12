@@ -10,7 +10,7 @@ let colorfulIcon = true;
 
 // https://www.figma.com/developers/embed
 const regexp =
-  /https:\/\/([\w\.-]+\.)?figma.com\/(file|proto)\/([0-9a-zA-Z]{22,128})(?:\/.*)?$/;
+  /https:\/\/[\w\.-]+\.?figma.com\/([\w-]+)\/([0-9a-zA-Z]{22,128})(?:\/.*)?$/;
 const extensionIframeUrl = chrome.runtime.getURL('iframe.html');
 const platform = navigator.userAgentData?.platform ?? 'macOS'; // FIXME
 const toggleModifierKey = platform === 'macOS' ? 'Command' : 'Ctrl';
@@ -206,20 +206,18 @@ function createEmbedEle(url, isInPopover) {
 function embedFigmaLinks(rootEle) {
   /** @type NodeListOf<HTMLAnchorElement> */
   const figmaLinkEles = rootEle.querySelectorAll(
-    `a:is(
-       [href^="https://www.figma.com/file/"],
-       [href^="https://www.figma.com/proto/"]
-     ):not(.${linkClass})`,
+    `a:is([href^="https://www.figma.com/"]):not(.${linkClass})`,
   );
   for (const ele of figmaLinkEles) {
     // Make sure we only handle this element once. This flag survives back/forward navigation.
     ele.classList.add(linkClass);
-    if (ele.textContent === ele.href) {
-      ele.style.wordBreak = 'break-all';
-    }
 
     if (!regexp.test(ele.href)) {
       continue;
+    }
+
+    if (ele.textContent === ele.href) {
+      ele.style.wordBreak = 'break-all';
     }
 
     const shouldExpand = autoExpand && !isInPopover(ele);
