@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import process from 'node:process';
-import manifest from './src/manifest.json' assert { type: 'json' };
-import geckoPatch from './gecko-manifest-patch.json' assert { type: 'json' };
+import manifest from './src/manifest.json' with { type: 'json' };
+import geckoPatch from './gecko-manifest-patch.json' with { type: 'json' };
 
 const dir = process.argv[2];
 
