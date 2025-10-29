@@ -5,7 +5,7 @@
     "@types/chrome": "^0.0.200"
   },
   "scripts": {
-    "firefox": "cp -R ./src ./firefox-build && node apply-gecko-manifest-patch.mjs ./firefox-build && npx web-ext run --firefox-preview --verbose -s ./firefox-build",
+    "firefox": "cp -R ./src ./firefox-build && node apply-gecko-manifest-patch.mjs ./firefox-build && npx web-ext run --firefox --verbose -s ./firefox-build",
     "safari": "xcrun safari-web-extension-converter --force ./src"
   },
   "prettier": {
