@@ -5,7 +5,11 @@
  */
 function createIframeEle(url) {
   const iframeEle = document.createElement('iframe');
-  iframeEle.src = `https://www.figma.com/embed?embed_host=figma-embed-extension&url=${url}`;
+  const embedUrl = new URL(url);
+  embedUrl.hostname = 'embed.figma.com';
+  embedUrl.searchParams.set('embed-host', 'figma-embed-extension');
+  embedUrl.searchParams.set('footer', 'false');
+  iframeEle.src = embedUrl.href;
   iframeEle.title = 'Figma file';
   iframeEle.allowFullscreen = true;
   iframeEle.loading = 'lazy';
