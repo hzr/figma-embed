@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Figma embed",
   "version": "0.7",
-  "description": "Finds links to Figma files and shows an embedded version of them next to the link.",
+  "description": "Embeds Figma files next to Figma links.",
   "host_permissions": ["https://github.com/"],
   "optional_host_permissions": ["https://*/"],
   "permissions": ["storage", "activeTab"],
