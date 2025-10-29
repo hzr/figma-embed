@@ -115,8 +115,8 @@ function setButtonAttributes(ele, isExpanded) {
   ele.ariaExpanded = String(isExpanded);
   ele.ariaLabel = isExpanded ? 'Hide the Figma file' : 'Show the Figma file';
   ele.title = isExpanded
-    ? `Hold ${toggleModifierKey} while clicking to hide all`
-    : `Hold ${toggleModifierKey} while clicking to show all`;
+    ? `${toggleModifierKey}-click to hide all`
+    : `${toggleModifierKey}-click to show all`;
   ele.style.setProperty('--transform', isExpanded ? 'rotate(180deg)' : '');
 }
 
