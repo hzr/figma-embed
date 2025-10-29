@@ -8,7 +8,7 @@ function makeKey(suffix) {
 let autoExpand = true;
 let colorfulIcon = true;
 
-// https://www.figma.com/developers/embed
+// https://developers.figma.com/docs/embeds/resources/#check-figma-url
 const regexp =
   /https:\/\/[\w\.-]+\.?figma.com\/([\w-]+)\/([0-9a-zA-Z]{22,128})(?:\/.*)?$/;
 const extensionIframeUrl = chrome.runtime.getURL('iframe.html');
